@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello")
+	fmt.Println("main for the basic blockchain")
 }
