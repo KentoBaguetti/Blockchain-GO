@@ -1,10 +1,10 @@
 package main
 
 import (
-	"time"
 	"bytes"
 	"crypto/sha256"
 	"strconv"
+	"time"
 )
 
 type Block struct {
@@ -15,9 +15,16 @@ type Block struct {
 }
 
 func (b *Block) SetHash() {
-	timeStamp := []byte(strconv.FormatInt(b.TimeStamp, 10))
-	headers := bytes.Join([][]byte{b.PrevBlockHash, b.Data, timeStamp}, []byte[])
+	timestamp := []byte(strconv.FormatInt(b.TimeStamp, 10))
+	headers := bytes.Join([][]byte{b.PrevBlockHash, b.Data, timestamp}, []byte{})
 	hash := sha256.Sum256(headers)
 
-	b.hash = hash[:]
+	b.Hash = hash[:]
+}
+
+func NewBlock(data string, prevBlockHash []byte) *Block {
+	block := Block{time.Now().Unix(), []byte(data), prevBlockHash, make([]byte, 0)}
+	pBlock := &block
+	pBlock.SetHash()
+	return pBlock
 }
